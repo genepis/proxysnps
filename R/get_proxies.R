@@ -77,7 +77,7 @@ get_proxies <- function(
   
   # Compute the minor allele frequencies.
   maf <- sapply(rowSums(geno) / ncol(geno), function(x) min(x, 1 - x))
-  
+  eaf <- rowSums(geno) / ncol(geno)
   # Select the SNP of interest.
   chosen <- meta$CHROM == chrom & meta$POS == pos
   
@@ -96,6 +96,7 @@ get_proxies <- function(
   retval <- cbind(
     meta,
     MAF = maf,
+    EAF = eaf,
     R.squared = round(sapply(ld, "[[", "R.squared"), 6),
     D.prime = round(sapply(ld, "[[", "D.prime"), 6),
     CHOSEN = chosen
